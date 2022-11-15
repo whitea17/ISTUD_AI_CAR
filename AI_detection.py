@@ -46,9 +46,34 @@ while True:
 	# check frame for footwear
 	results = aiBrains.Detect(frame, overlay=opt_overlay)
 
-	# print out all detections
+
+	# search through all detections for most confident detection
+	counter = 0
+	most_confident_index = 0
+	most_confident_val = -1
+
 	for footwear_obj in results:
-		print(footwear_obj)
+		# If the next detection has a higher confidence than the current most c.
+		if(footwear_obj.Confidence >= most_confident_val):
+			most_confident_index = counter	# set the most_confident_index to current index
+			most_confident_val = footwear_obj.Confidence # Update confidence value
+
+		counter = counter + 1 # move for loop index forward by 1
+	
+	# Check if a footwear object has been detected, (default most_confident_val val. will change if there is a detection)
+	if(most_confident_val != -1):
+		x_middle_of_frame = frame.width / 2 # find half way point of image in pixels
+		x_center_point_of_footwear_detection = results[most_confident_index].Center[0] #results[n].Center format is ('x-val', 'y-val)
+		
+		# Determine where the most confident object detection is on screen and avoid it
+		if(x_center_point_of_footwear_detection > x_middle_of_frame):
+			print("Turn left!")
+		else:
+			print("Turn right!")
+	else:
+		# No footwear object detection found, moving forward
+		print("Drive forward!")
+
 
 	# render image for debugging purposes
 	output.Render(frame)
