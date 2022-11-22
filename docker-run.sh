@@ -14,7 +14,6 @@ CONTAINER_NAME="local/istud_ai_car"
 
 
 sudo docker run --runtime nvidia -it --rm \
-	-v /home/rc/jetson-inference/python/training/detection/ssd/models://ISTUD_AI_CAR/models \
 	-v /tmp/argus_socket:/tmp/argus_socket \
 	-v /etc/enctune.conf:/etc/enctune.conf \
 	--privileged --gpus all \
