@@ -1,0 +1,3 @@
+[submodule "motor_control"]
+	path = motor_control
+	url = git@github.com:whitea17/motor_control.git

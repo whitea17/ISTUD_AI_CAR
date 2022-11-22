@@ -3,6 +3,39 @@ import jetson.utils
 
 import argparse
 import sys
+import atexit
+
+from motor_control import classy_move
+
+# shutdown car's motors on exit
+def onExit():
+	global Car
+
+	# Reset GPIO pin states
+	Car.resetStates()
+	Car.setGPIO()
+
+#
+# Var.s for motor_control
+# GPIO pins
+motor_pin_1 = 12
+motor_pin_2 = 32
+enable_pin = 33
+
+servo_pin_1 = 40
+servo_pin_2 = 38
+
+#GPIO states
+motor_pin_1_state = 0
+motor_pin_2_state = 0
+enable_pin_pwm_val = 0
+enable_pin_pwm = None
+
+servo_pin_1_state = 0
+servo_pin_2_state = 0
+#
+#
+
 
 # parser for command line args
 parser = argparse.ArgumentParser(description="An AI program that is scared of Footwear")
@@ -38,6 +71,14 @@ aiBrains = jetson.inference.detectNet(opt_network, new_args, opt_threshold)
 input = jetson.utils.videoSource(opt_input_URI, argv=new_args)
 output = jetson.utils.videoOutput(opt.output_URI, argv=new_args) # output is not needed, only used for debugging
 
+try:
+	# Setup motor_control object
+	Car = classy_move.MotorControl(motor_pin_1, motor_pin_2, enable_pin, servo_pin_1, servo_pin_2)
+	atexit.register(onExit)
+except:
+	print("Setup of car motor controls failed.")
+	sys.exit(0)
+
 # main loop
 while True:
 	# grab next frame
@@ -68,11 +109,19 @@ while True:
 		# Determine where the most confident object detection is on screen and avoid it
 		if(x_center_point_of_footwear_detection > x_middle_of_frame):
 			print("Turn left!")
+			Car.resetStates()
+			Car.forward_left()
+			Car.setGPIO()
 		else:
 			print("Turn right!")
+			Car.resetStates()
+			Car.forward_right()
+			Car.setGPIO()
 	else:
-		# No footwear object detection found, moving forward
-		print("Drive forward!")
+		# No footwear object detection found, don't move
+		print("Doing nothing!")
+		Car.resetStates()
+		Car.setGPIO()
 
 
 	# render image for debugging purposes
