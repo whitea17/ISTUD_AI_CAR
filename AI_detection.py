@@ -33,6 +33,9 @@ enable_pin_pwm = None
 
 servo_pin_1_state = 0
 servo_pin_2_state = 0
+
+# Turn speed for right and left turns
+turn_speed = 100
 #
 #
 
@@ -110,12 +113,12 @@ while True:
 		if(x_center_point_of_footwear_detection > x_middle_of_frame):
 			print("Turn left!")
 			Car.resetStates()
-			Car.forward_left()
+			Car.forward_left(turn_speed)
 			Car.setGPIO()
 		else:
 			print("Turn right!")
 			Car.resetStates()
-			Car.forward_right()
+			Car.forward_right(turn_speed)
 			Car.setGPIO()
 	else:
 		# No footwear object detection found, don't move
