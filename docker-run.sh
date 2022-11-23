@@ -6,7 +6,8 @@ MODEL_LABELS="models/labels_for_both_foot_models.txt"
 
 # More ouput options here: 
 # https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-streaming.md
-OUTPUT_STREAM="rtp://ip_addr_of_pc:5004" 
+# Example OUTPUT_STREAM: OUTPUT_STREAM="rtp://ip_addr_of_pc:5004" 
+OUTPUT_STREAM=""
 INPUT_CAMERA="--device /dev/video0"
 
 # Same tag used in docker build . -t local/istud_ai_car
@@ -14,7 +15,6 @@ CONTAINER_NAME="local/istud_ai_car"
 
 
 sudo docker run --runtime nvidia -it --rm \
-	-v /home/rc/jetson-inference/python/training/detection/ssd/models://ISTUD_AI_CAR/models \
 	-v /tmp/argus_socket:/tmp/argus_socket \
 	-v /etc/enctune.conf:/etc/enctune.conf \
 	--privileged --gpus all \
