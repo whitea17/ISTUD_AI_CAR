@@ -41,6 +41,8 @@ Harold is made up of the following parts:
 
 **Starting point**: The gamma 2.0 is an amazing 3D print-in-place car. It was designed by UNDER_ENGINEERED and is available for free on [cults3d.com.](https://cults3d.com/en/3d-model/gadget/gamma-2-demo) Unfortunately, the small motor used in this design was not powerful enough to move the car and all of the needed components for this project. 
 
+![car_on_3d_printer](./doc/images/car_on_3d_printer.jpg)
+
 **Modifications**: 
 
 - **Design:** I had a larger more powerful motor at my disposal but it would not fit in the the original design for the gamma 2.0 car. I found the percentage of how much larger the new motor was based on it's radius. I then created a 3D model of the new motor in 3D CAD software, scaled the gamma 2.0 car by the same percentage, and test fitted the parts in 3D CAD software. It worked! ...Mostly.
